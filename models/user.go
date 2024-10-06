@@ -1,11 +1,12 @@
 package models
 
-import "gorm.io/gorm"
-
-// Модель пользователя
+// User представляет данные пользователя.
+// swagger:model
 type User struct {
-	gorm.Model
-	ID   int    `json:"id" gorm:"primaryKey"`
+	// Имя пользователя
+	// example: John Doe
 	Name string `json:"name"`
-	Age  int    `json:"age"`
+	// Возраст пользователя
+	// example: 30
+	Age int `json:"age"`
 }

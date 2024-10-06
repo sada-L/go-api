@@ -1,9 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample server for a user management API.",
+        "description": "Server for a user management API.",
         "title": "GO API",
-        "termsOfService": "http://swagger.io/terms/",
         "contact": {},
         "version": "1.0"
     },
@@ -178,7 +177,17 @@
     },
     "definitions": {
         "models.User": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "age": {
+                    "description": "Возраст пользователя\nexample: 30",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Имя пользователя\nexample: John Doe",
+                    "type": "string"
+                }
+            }
         }
     }
 }

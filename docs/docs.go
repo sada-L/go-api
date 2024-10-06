@@ -9,7 +9,6 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
         "contact": {},
         "version": "{{.Version}}"
     },
@@ -184,7 +183,17 @@ const docTemplate = `{
     },
     "definitions": {
         "models.User": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "age": {
+                    "description": "Возраст пользователя\nexample: 30",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Имя пользователя\nexample: John Doe",
+                    "type": "string"
+                }
+            }
         }
     }
 }`
@@ -196,7 +205,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "GO API",
-	Description:      "This is a sample server for a user management API.",
+	Description:      "Server for a user management API.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

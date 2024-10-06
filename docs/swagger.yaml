@@ -1,12 +1,22 @@
 basePath: /
 definitions:
   models.User:
+    properties:
+      age:
+        description: |-
+          Возраст пользователя
+          example: 30
+        type: integer
+      name:
+        description: |-
+          Имя пользователя
+          example: John Doe
+        type: string
     type: object
 host: 89.110.53.87:5511
 info:
   contact: {}
-  description: This is a sample server for a user management API.
-  termsOfService: http://swagger.io/terms/
+  description: Server for a user management API.
   title: GO API
   version: "1.0"
 paths:

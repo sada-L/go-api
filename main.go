@@ -15,10 +15,9 @@ import (
 
 // @title GO API
 // @version 1.0
-// @description This is a sample server for a user management API.
-// @termsOfService http://swagger.io/terms/
+// @description Server for a user management API.
 
-// @host localhost:8080
+// @host 89.110.53.87:5511
 // @BasePath /
 
 func registerRoutes(r *gin.Engine) {
