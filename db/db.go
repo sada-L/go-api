@@ -18,7 +18,9 @@ func ConnectDatabase() {
 	}
 
 	// Автоматическая миграция таблиц
-	database.AutoMigrate(&User{})
+	if err := database.AutoMigrate(&User{}); err != nil {
+		log.Fatal("Failed to migrate database!", err)
+	}
 
 	DB = database
 }

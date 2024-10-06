@@ -39,9 +39,9 @@ func main() {
 	registerRoutes(r)
 
 	// Запуск сервера
-	err := r.Run(":8080")
-	if err != nil {
-		log.Fatal(err)
+
+	if err := r.Run(":8080"); err != nil {
+		log.Fatal("Error in server start", err)
 	}
 
 	fmt.Println("Server is running on port 8080")
