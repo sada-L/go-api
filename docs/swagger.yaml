@@ -2,7 +2,7 @@ basePath: /
 definitions:
   models.User:
     type: object
-host: localhost:8080
+host: 89.110.53.87:5511
 info:
   contact: {}
   description: This is a sample server for a user management API.
