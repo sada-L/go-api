@@ -6,6 +6,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
+	"os"
 
 	. "go-api/controllers"
 	. "go-api/db"
@@ -32,15 +33,11 @@ func main() {
 	ConnectDatabase()
 	r := gin.Default()
 
-	// Swagger
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	// Маршруты
 	registerRoutes(r)
 
-	// Запуск сервера
-
-	if err := r.Run(":8080"); err != nil {
+	if err := r.Run(os.Getenv("SERVER_ADDRESS")); err != nil {
 		log.Fatal("Error in server start", err)
 	}
 
