@@ -28,7 +28,6 @@ type (
 // @Summary Получить всех пользователей.
 // @Description Возвращает список всех пользователей.
 // @Tags User
-// @Accept */*
 // @Param Authorization header string true "'Bearer _YOUR_TOKEN_'"
 // @Security Bearer Authentication
 // @Produce json
@@ -50,7 +49,6 @@ func (h *userHandler) GetUser(c echo.Context) error {
 // @Summary Создание пользователя.
 // @Description Создает нового пользователя.
 // @Tags User
-// @Accept */*
 // @Param Authorization header string true "'Bearer _YOUR_TOKEN_'"
 // @Param user body User true "User Info"
 // @Security Bearer Authentication
@@ -80,11 +78,11 @@ func (h *userHandler) CreateUser(c echo.Context) error {
 // @Summary Обновить пользователся.
 // @Description Обновляет пользователя.
 // @Tags User
-// @Accept */*
 // @Param Authorization header string true "'Bearer _YOUR_TOKEN_'"
 // @Param user body User true "User Info"
 // @Security Bearer Authentication
 // @Produce json
+// @Success 200 {integer} integer "Updated ID"
 // @Failure 400 {object} utils.Error
 // @Failure 404 {object} utils.Error
 // @Failure 500 {object} utils.Error
@@ -98,7 +96,6 @@ func (h *userHandler) UpdateUser(c echo.Context) error {
 	}
 
 	r, err := h.UserService.UpdateUser(u)
-
 	if err != nil {
 		logger.Error("failed to update user", zap.Error(err))
 		return c.JSON(http.StatusInternalServerError, utils.Error{Message: err.Error()})
@@ -111,18 +108,17 @@ func (h *userHandler) UpdateUser(c echo.Context) error {
 // @Summary Удалить пользователся по ID.
 // @Description Удаляет пользователя по ID.
 // @Tags User
-// @Accept */*
 // @Security Bearer Authentication
 // @Produce json
 // @Param id path int true "User id"
 // @Param Authorization header string true "'Bearer _YOUR_TOKEN_'"
-// @Success 200 {string} string "OK"
+// @Success 200 {string} string "User delete"
 // @Failure 400 {object} utils.Error
 // @Failure 404 {object} utils.Error
-// @Failure 500 {object} utils.Error
 // @Router /api/v1/user/{id} [delete]
 func (h *userHandler) DeleteUserById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
+
 	if err != nil {
 		logger.Error("failed to parse id", zap.Error(err))
 		return c.JSON(http.StatusBadRequest, utils.Error{Message: "ID is invalid"})
@@ -130,9 +126,9 @@ func (h *userHandler) DeleteUserById(c echo.Context) error {
 
 	err = h.UserService.DeleteUser(id)
 	if err != nil {
-		logger.Error("failed to delete user", zap.Error(err))
-		return c.JSON(http.StatusInternalServerError, utils.Error{Message: err.Error()})
+		logger.Error("failed to found user", zap.Error(err))
+		return c.JSON(http.StatusNotFound, utils.Error{Message: "user not found"})
 	}
 
-	return c.JSON(http.StatusOK, "OK")
+	return c.JSON(http.StatusOK, "User delete")
 }

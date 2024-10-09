@@ -53,8 +53,6 @@ paths:
       tags:
       - User
     post:
-      consumes:
-      - '*/*'
       description: Создает нового пользователя.
       parameters:
       - description: '''Bearer _YOUR_TOKEN_'''
@@ -89,8 +87,6 @@ paths:
       tags:
       - User
     put:
-      consumes:
-      - '*/*'
       description: Обновляет пользователя.
       parameters:
       - description: '''Bearer _YOUR_TOKEN_'''
@@ -107,6 +103,10 @@ paths:
       produces:
       - application/json
       responses:
+        "200":
+          description: Updated ID
+          schema:
+            type: integer
         "400":
           description: Bad Request
           schema:
@@ -144,7 +144,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: User delete
           schema:
             type: string
         "400":
@@ -153,10 +153,6 @@ paths:
             $ref: '#/definitions/utils.Error'
         "404":
           description: Not Found
-          schema:
-            $ref: '#/definitions/utils.Error'
-        "500":
-          description: Internal Server Error
           schema:
             $ref: '#/definitions/utils.Error'
       security:

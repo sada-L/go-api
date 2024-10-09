@@ -67,9 +67,6 @@ const docTemplate = `{
                     }
                 ],
                 "description": "Обновляет пользователя.",
-                "consumes": [
-                    "*/*"
-                ],
                 "produces": [
                     "application/json"
                 ],
@@ -96,6 +93,12 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "Updated ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
@@ -123,9 +126,6 @@ const docTemplate = `{
                     }
                 ],
                 "description": "Создает нового пользователя.",
-                "consumes": [
-                    "*/*"
-                ],
                 "produces": [
                     "application/json"
                 ],
@@ -209,7 +209,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "User delete",
                         "schema": {
                             "type": "string"
                         }
@@ -222,12 +222,6 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/utils.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/utils.Error"
                         }

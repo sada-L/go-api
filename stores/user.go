@@ -49,8 +49,13 @@ func (s *userStore) Update(user *User) (int, error) {
 }
 
 func (s *userStore) DeleteById(id int) error {
+	if err := s.DB.First(&User{}, id).Error; err != nil {
+		return err
+	}
+
 	if err := s.DB.Delete(&User{}, id).Error; err != nil {
 		return err
 	}
+
 	return nil
 }
