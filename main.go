@@ -1,46 +1,43 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
-	"net/http"
-	"os"
-
-	. "go-api/controllers"
-	. "go-api/db"
+	database "go-api/db"
 	_ "go-api/docs"
+	"go-api/handlers"
+	"go-api/middlewares"
+	"go-api/services"
+	"go-api/stores"
 	"log"
+	"os"
 )
 
 // @title GO API
 // @version 1.0
 // @description Server for a user management API.
 
-// @host 89.110.53.87:5511
+// @host localhost:8080
 // @BasePath /
-
-func registerRoutes(r *gin.Engine) {
-	r.POST("/users", CreateUser)
-	r.GET("/users", GetUsers)
-	r.GET("/users/:id", GetUserByID)
-	r.PUT("/users/:id", UpdateUser)
-	r.DELETE("/users/:id", DeleteUser)
-}
-
+// @schemes http
 func main() {
-	ConnectDatabase()
-	r := gin.Default()
+	db, err := database.New()
+	if err != nil {
+		log.Fatal(err)
+	}
+	e := handlers.Echo()
 
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	s := stores.New(db)
+	ss := services.New(s)
+	h := handlers.New(ss)
 
-	registerRoutes(r)
-
-	if err := r.Run(os.Getenv("SERVER_ADDRESS")); err != nil {
-		log.Fatal("Error in server start", err)
+	jwtCheck, err := middlewares.JwtMiddleware()
+	if err != nil {
+		log.Fatal("failed to set JWT middleware")
 	}
 
-	fmt.Println("Server is running on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", r))
+	handlers.SetDefault(e)
+	handlers.SetApi(e, h, jwtCheck)
+
+	if err := e.Start(os.Getenv("SERVER_ADDRESS")); err != nil {
+		log.Fatal("Error in server start", err)
+	}
 }

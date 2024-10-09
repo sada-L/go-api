@@ -1,12 +1,7 @@
 package models
 
-// User представляет данные пользователя.
-// swagger:model
 type User struct {
-	// Имя пользователя
-	// example: John Doe
-	Name string `json:"name"`
-	// Возраст пользователя
-	// example: 30
-	Age int `json:"age"`
+	Id   int    `json:"id"`
+	Age  int    `json:"age"  example:"10"`
+	Name string `json:"name" example:"Bill"`
 }

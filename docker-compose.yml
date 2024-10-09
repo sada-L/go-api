@@ -1,32 +1,28 @@
 version: '3.9'
 
 services:
-  postgres:
+  server-db:
     image: postgres:17
+    container_name: server-db
+    restart: always
     environment:
-      POSTGRES_PASSWORD: postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     ports:
       - "5533:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - app-network
+      - ./postgres:/data/server-db
 
-  app:
+  go-server:
+    container_name: go-server
     build:
       context: .
-      dockerfile: Dockerfile
     ports:
       - "5511:8080"
+    volumes:
+      - .:/go/app/base
     depends_on:
       - postgres
-    networks:
-      - app-network
 
-volumes:
-  postgres_data:
-
-networks:
-  app-network:
-    driver: bridge
 
