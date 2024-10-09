@@ -33,7 +33,7 @@ func SetDefault(e *echo.Echo) {
 
 func SetApi(e *echo.Echo, h *Handlers, m echo.MiddlewareFunc) {
 	g := e.Group("/api/v1")
-	//g.Use(m)
+	g.Use(m)
 
 	// User
 	g.GET("/user", h.UserHandler.GetUser)

@@ -22,7 +22,7 @@ const docTemplate = `{
                         "Bearer Authentication": []
                     }
                 ],
-                "description": "Fetch a list of all users.",
+                "description": "Возвращает список всех пользователей.",
                 "consumes": [
                     "*/*"
                 ],
@@ -32,7 +32,7 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "Fetch a list of all users.",
+                "summary": "Получить всех пользователей.",
                 "parameters": [
                     {
                         "type": "string",
@@ -66,7 +66,7 @@ const docTemplate = `{
                         "Bearer Authentication": []
                     }
                 ],
-                "description": "Update a user.",
+                "description": "Обновляет пользователя.",
                 "consumes": [
                     "*/*"
                 ],
@@ -76,7 +76,7 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "Update a user.",
+                "summary": "Обновить пользователся.",
                 "parameters": [
                     {
                         "type": "string",
@@ -96,12 +96,6 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "Updated ID",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
@@ -128,7 +122,7 @@ const docTemplate = `{
                         "Bearer Authentication": []
                     }
                 ],
-                "description": "Create a user.",
+                "description": "Создает нового пользователя.",
                 "consumes": [
                     "*/*"
                 ],
@@ -138,7 +132,7 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "Create a user.",
+                "summary": "Создание пользователя.",
                 "parameters": [
                     {
                         "type": "string",
@@ -186,7 +180,7 @@ const docTemplate = `{
                         "Bearer Authentication": []
                     }
                 ],
-                "description": "Delete a user by ID.",
+                "description": "Удаляет пользователя по ID.",
                 "consumes": [
                     "*/*"
                 ],
@@ -196,7 +190,7 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "Delete a user by ID.",
+                "summary": "Удалить пользователся по ID.",
                 "parameters": [
                     {
                         "type": "integer",

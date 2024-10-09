@@ -19,7 +19,7 @@
                         "Bearer Authentication": []
                     }
                 ],
-                "description": "Fetch a list of all users.",
+                "description": "Возвращает список всех пользователей.",
                 "consumes": [
                     "*/*"
                 ],
@@ -29,7 +29,7 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Fetch a list of all users.",
+                "summary": "Получить всех пользователей.",
                 "parameters": [
                     {
                         "type": "string",
@@ -63,7 +63,7 @@
                         "Bearer Authentication": []
                     }
                 ],
-                "description": "Update a user.",
+                "description": "Обновляет пользователя.",
                 "consumes": [
                     "*/*"
                 ],
@@ -73,7 +73,7 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Update a user.",
+                "summary": "Обновить пользователся.",
                 "parameters": [
                     {
                         "type": "string",
@@ -93,12 +93,6 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "Updated ID",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
@@ -125,7 +119,7 @@
                         "Bearer Authentication": []
                     }
                 ],
-                "description": "Create a user.",
+                "description": "Создает нового пользователя.",
                 "consumes": [
                     "*/*"
                 ],
@@ -135,7 +129,7 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Create a user.",
+                "summary": "Создание пользователя.",
                 "parameters": [
                     {
                         "type": "string",
@@ -183,7 +177,7 @@
                         "Bearer Authentication": []
                     }
                 ],
-                "description": "Delete a user by ID.",
+                "description": "Удаляет пользователя по ID.",
                 "consumes": [
                     "*/*"
                 ],
@@ -193,7 +187,7 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Delete a user by ID.",
+                "summary": "Удалить пользователся по ID.",
                 "parameters": [
                     {
                         "type": "integer",

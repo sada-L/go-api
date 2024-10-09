@@ -27,7 +27,7 @@ paths:
     get:
       consumes:
       - '*/*'
-      description: Fetch a list of all users.
+      description: Возвращает список всех пользователей.
       parameters:
       - description: '''Bearer _YOUR_TOKEN_'''
         in: header
@@ -49,13 +49,13 @@ paths:
             $ref: '#/definitions/utils.Error'
       security:
       - Bearer Authentication: []
-      summary: Fetch a list of all users.
+      summary: Получить всех пользователей.
       tags:
       - User
     post:
       consumes:
       - '*/*'
-      description: Create a user.
+      description: Создает нового пользователя.
       parameters:
       - description: '''Bearer _YOUR_TOKEN_'''
         in: header
@@ -85,13 +85,13 @@ paths:
             $ref: '#/definitions/utils.Error'
       security:
       - Bearer Authentication: []
-      summary: Create a user.
+      summary: Создание пользователя.
       tags:
       - User
     put:
       consumes:
       - '*/*'
-      description: Update a user.
+      description: Обновляет пользователя.
       parameters:
       - description: '''Bearer _YOUR_TOKEN_'''
         in: header
@@ -107,10 +107,6 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Updated ID
-          schema:
-            type: integer
         "400":
           description: Bad Request
           schema:
@@ -125,14 +121,14 @@ paths:
             $ref: '#/definitions/utils.Error'
       security:
       - Bearer Authentication: []
-      summary: Update a user.
+      summary: Обновить пользователся.
       tags:
       - User
   /api/v1/user/{id}:
     delete:
       consumes:
       - '*/*'
-      description: Delete a user by ID.
+      description: Удаляет пользователя по ID.
       parameters:
       - description: User id
         in: path
@@ -165,7 +161,7 @@ paths:
             $ref: '#/definitions/utils.Error'
       security:
       - Bearer Authentication: []
-      summary: Delete a user by ID.
+      summary: Удалить пользователся по ID.
       tags:
       - User
 schemes:

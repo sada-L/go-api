@@ -7,10 +7,10 @@ import (
 
 type (
 	UserService interface {
-		GetUsers() []User
-		CreateUser(a *User)
-		UpdateUser(a *User)
-		DeleteUser(id int)
+		GetUsers() ([]User, error)
+		CreateUser(a *User) (int, error)
+		UpdateUser(a *User) (int, error)
+		DeleteUser(id int) error
 	}
 
 	userService struct {
@@ -18,18 +18,22 @@ type (
 	}
 )
 
-func (s *userService) GetUsers() []User {
-	return s.stores.User.Get()
+func (s *userService) GetUsers() ([]User, error) {
+	r, err := s.stores.User.Get()
+	return r, err
 }
 
-func (s *userService) CreateUser(a *User) {
-	s.stores.User.Create(a)
+func (s *userService) CreateUser(a *User) (int, error) {
+	r, err := s.stores.User.Create(a)
+	return r, err
 }
 
-func (s *userService) UpdateUser(a *User) {
-	s.stores.User.Update(a)
+func (s *userService) UpdateUser(a *User) (int, error) {
+	r, err := s.stores.User.Update(a)
+	return r, err
 }
 
-func (s *userService) DeleteUser(id int) {
-	s.stores.User.DeleteById(id)
+func (s *userService) DeleteUser(id int) error {
+	err := s.stores.User.DeleteById(id)
+	return err
 }
