@@ -15,10 +15,10 @@ type Auth0ConfigType struct {
 }
 
 var Auth0Config = Auth0ConfigType{
-	Domain:             "****",
-	ClientID:           "****",
-	Audience:           []string{"****"},
-	Issuer:             "****",
+	Domain:             "your-app-name.auth0.com",
+	ClientID:           "123abcDEF456ghiJKL789mnoPQR",
+	Audience:           []string{"https://your-api.example.com"},
+	Issuer:             "https://your-app-name.auth0.com/",
 	SignatureAlgorithm: validator.RS256,
 	CacheDuration:      15 * time.Minute,
 }

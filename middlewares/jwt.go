@@ -32,8 +32,8 @@ func JwtMiddleware() (echo.MiddlewareFunc, error) {
 
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-
 			authorization := c.Request().Header.Get("Authorization")
+
 			if authorization == "" {
 				return echo.NewHTTPError(http.StatusUnauthorized, "No Authorization Header")
 			}
