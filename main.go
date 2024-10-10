@@ -17,7 +17,7 @@ import (
 // @version 1.0
 // @description Server for a user management API.
 
-// @host localhost:8080
+// @host 89.110.53.87:5511
 // @BasePath /
 // @schemes http
 func main() {

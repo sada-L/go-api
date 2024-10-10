@@ -3,11 +3,13 @@ package services
 import "go-api/stores"
 
 type Services struct {
-	User UserService
+	User  UserService
+	Image ImageService
 }
 
 func New(s *stores.Stores) *Services {
 	return &Services{
-		User: &userService{stores: s},
+		User:  &userService{stores: s},
+		Image: &imageService{stores: s},
 	}
 }

@@ -1,5 +1,13 @@
 basePath: /
 definitions:
+  models.Image:
+    properties:
+      filename:
+        example: Image.jpg
+        type: string
+      id:
+        type: integer
+    type: object
   models.User:
     properties:
       age:
@@ -16,17 +24,126 @@ definitions:
       message:
         type: string
     type: object
-host: localhost:8080
+host: 89.110.53.87:5511
 info:
   contact: {}
   description: Server for a user management API.
   title: GO API
   version: "1.0"
 paths:
-  /api/v1/user:
+  /api/v1/image/:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Загружает выбранное изображение.
+      parameters:
+      - description: Image file
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: '''Bearer _YOUR_TOKEN_'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Image ID
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      security:
+      - Bearer Authentication: []
+      summary: Загрузить изображение.
+      tags:
+      - Image
+  /api/v1/image/{id}:
+    delete:
+      consumes:
+      - multipart/form-data
+      description: Удаляет изображение по ID.
+      parameters:
+      - description: Image ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: '''Bearer _YOUR_TOKEN_'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Image deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      security:
+      - Bearer Authentication: []
+      summary: Удалить изображение по ID.
+      tags:
+      - Image
     get:
       consumes:
-      - '*/*'
+      - multipart/form-data
+      description: Возвращает изображение по ID.
+      parameters:
+      - description: Image ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: '''Bearer _YOUR_TOKEN_'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Image'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.Error'
+      security:
+      - Bearer Authentication: []
+      summary: Получить изображение по ID.
+      tags:
+      - Image
+  /api/v1/user:
+    get:
       description: Возвращает список всех пользователей.
       parameters:
       - description: '''Bearer _YOUR_TOKEN_'''
@@ -126,8 +243,6 @@ paths:
       - User
   /api/v1/user/{id}:
     delete:
-      consumes:
-      - '*/*'
       description: Удаляет пользователя по ID.
       parameters:
       - description: User id
@@ -144,7 +259,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: User delete
+          description: User deleted
           schema:
             type: string
         "400":

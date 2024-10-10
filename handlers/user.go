@@ -13,7 +13,7 @@ import (
 
 type (
 	UserHandler interface {
-		GetUser(c echo.Context) error
+		GetUsers(c echo.Context) error
 		CreateUser(c echo.Context) error
 		UpdateUser(c echo.Context) error
 		DeleteUserById(c echo.Context) error
@@ -24,7 +24,7 @@ type (
 	}
 )
 
-// GetUser
+// GetUsers
 // @Summary Получить всех пользователей.
 // @Description Возвращает список всех пользователей.
 // @Tags User
@@ -34,7 +34,7 @@ type (
 // @Success 200 {object} []models.User
 // @Failure 500 {object} utils.Error
 // @Router /api/v1/user [get]
-func (h *userHandler) GetUser(c echo.Context) error {
+func (h *userHandler) GetUsers(c echo.Context) error {
 	r, err := h.UserService.GetUsers()
 
 	if err != nil {
@@ -112,13 +112,12 @@ func (h *userHandler) UpdateUser(c echo.Context) error {
 // @Produce json
 // @Param id path int true "User id"
 // @Param Authorization header string true "'Bearer _YOUR_TOKEN_'"
-// @Success 200 {string} string "User delete"
+// @Success 200 {string} string "User deleted"
 // @Failure 400 {object} utils.Error
 // @Failure 404 {object} utils.Error
 // @Router /api/v1/user/{id} [delete]
 func (h *userHandler) DeleteUserById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
-
 	if err != nil {
 		logger.Error("failed to parse id", zap.Error(err))
 		return c.JSON(http.StatusBadRequest, utils.Error{Message: "ID is invalid"})

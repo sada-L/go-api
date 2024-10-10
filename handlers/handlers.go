@@ -13,11 +13,13 @@ import (
 
 type Handlers struct {
 	UserHandler
+	ImageHandler
 }
 
 func New(s *services.Services) *Handlers {
 	return &Handlers{
-		UserHandler: &userHandler{s.User},
+		UserHandler:  &userHandler{s.User},
+		ImageHandler: &imageHandler{s.Image},
 	}
 }
 
@@ -36,10 +38,15 @@ func SetApi(e *echo.Echo, h *Handlers, m echo.MiddlewareFunc) {
 	//g.Use(m)
 
 	// User
-	g.GET("/user", h.UserHandler.GetUser)
+	g.GET("/user", h.UserHandler.GetUsers)
 	g.POST("/user", h.UserHandler.CreateUser)
 	g.PUT("/user", h.UserHandler.UpdateUser)
 	g.DELETE("/user/:id", h.UserHandler.DeleteUserById)
+
+	//image
+	g.GET("/image/:id", h.ImageHandler.GetImage)
+	g.POST("/image", h.ImageHandler.UploadImage)
+	g.DELETE("/image/:id", h.ImageHandler.DeleteImageById)
 }
 
 func Echo() *echo.Echo {
