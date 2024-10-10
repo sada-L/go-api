@@ -7,7 +7,8 @@ import (
 
 type (
 	UserStore interface {
-		Get() ([]User, error)
+		GetById(id int) (User, error)
+		GetAll() ([]User, error)
 		Create(user *User) (int, error)
 		Update(user *User) (int, error)
 		DeleteById(id int) error
@@ -18,7 +19,16 @@ type (
 	}
 )
 
-func (s *userStore) Get() ([]User, error) {
+func (s *userStore) GetById(id int) (User, error) {
+	var user User
+	if err := s.DB.First(&user, id).Error; err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+func (s *userStore) GetAll() ([]User, error) {
 	var users []User
 	if err := s.DB.Find(&users).Error; err != nil {
 		return nil, err

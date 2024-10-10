@@ -27,7 +27,7 @@ func SetDefault(e *echo.Echo) {
 	utils.SetHTMLTemplateRenderer(e)
 
 	e.GET("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "data", configs.Auth0Config)
+		return c.Render(http.StatusOK, "data", configs.GetConf())
 	})
 	e.GET("/healthcheck", HealthCheckHandler)
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
@@ -38,6 +38,7 @@ func SetApi(e *echo.Echo, h *Handlers, m echo.MiddlewareFunc) {
 	//g.Use(m)
 
 	// User
+	g.GET("/user/:id", h.UserHandler.GetUserById)
 	g.GET("/user", h.UserHandler.GetUsers)
 	g.POST("/user", h.UserHandler.CreateUser)
 	g.PUT("/user", h.UserHandler.UpdateUser)

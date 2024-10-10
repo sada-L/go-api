@@ -23,7 +23,7 @@
         <h2>Go API</h2>
         <h3>АВТОРИЗАЦИЯ НЕ РАБОТАЕТ</h3>
         <p>
-            <a href="http://89.110.53.87:5511/swagger/index.html">API document</a>
+            <a href="http://{{.Domain}}/swagger/index.html">API document</a>
         </p>
 
         <button id="btn-login" onclick="login()">Log in</button>
@@ -49,13 +49,13 @@
 
             const login = async () => {
                 await auth0.loginWithRedirect({
-                    redirect_uri: 'http://localhost:8080/'
+                    redirect_uri: 'http://{{.Domain}}/'
                 })
             }
 
             const logout = async () => {
                 auth0.logout({
-                    returnTo: 'http://localhost:8080/'
+                    returnTo: 'http://{{.Domain}}/'
                 })
             }
 

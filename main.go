@@ -17,7 +17,6 @@ import (
 // @version 1.0
 // @description Server for a user management API.
 
-// @host 89.110.53.87:5511
 // @BasePath /
 // @schemes http
 func main() {
@@ -45,6 +44,6 @@ func main() {
 	handlers.SetDefault(e)
 	handlers.SetApi(e, h, jwtCheck)
 
-	port := os.Getenv("SERVER_ADDRESS")
+	port := os.Getenv("SERVER_LOCAL_PORT")
 	logger.Fatal("failed to start server", zap.Error(e.Start(port)))
 }

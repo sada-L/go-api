@@ -11,7 +11,7 @@ import (
 )
 
 func JwtMiddleware() (echo.MiddlewareFunc, error) {
-	auth0Config := configs.Auth0Config
+	auth0Config := configs.GetConf()
 
 	issuerURL, err := url.Parse(auth0Config.Issuer)
 	if err != nil {

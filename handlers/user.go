@@ -13,6 +13,7 @@ import (
 
 type (
 	UserHandler interface {
+		GetUserById(c echo.Context) error
 		GetUsers(c echo.Context) error
 		CreateUser(c echo.Context) error
 		UpdateUser(c echo.Context) error
@@ -23,6 +24,34 @@ type (
 		services.UserService
 	}
 )
+
+// GetUserById
+// @Summary Получить пользователя по ID.
+// @Description Возвращает пользователя по ID.
+// @Tags User
+// @Param Authorization header string true "'Bearer _YOUR_TOKEN_'"
+// @Param id path int true "User id"
+// @Security Bearer Authentication
+// @Produce json
+// @Success 200 {object} models.User
+// @Failure 404 {object} utils.Error
+// @Failure 500 {object} utils.Error
+// @Router /api/v1/user/{id} [get]
+func (h *userHandler) GetUserById(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		logger.Error("failed to parse id", zap.Error(err))
+		return c.JSON(http.StatusBadRequest, utils.Error{Message: "ID is invalid"})
+	}
+
+	r, err := h.UserService.GetUserById(id)
+	if err != nil {
+		logger.Error("failed to found", zap.Error(err))
+		return c.JSON(http.StatusNotFound, utils.Error{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, r)
+}
 
 // GetUsers
 // @Summary Получить всех пользователей.

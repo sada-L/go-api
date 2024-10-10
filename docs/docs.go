@@ -343,6 +343,57 @@ const docTemplate = `{
             }
         },
         "/api/v1/user/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ],
+                "description": "Возвращает пользователя по ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Получить пользователя по ID.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "'Bearer _YOUR_TOKEN_'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "security": [
                     {
@@ -439,7 +490,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "89.110.53.87:5511",
+	Host:             "",
 	BasePath:         "/",
 	Schemes:          []string{"http"},
 	Title:            "GO API",

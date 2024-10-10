@@ -9,7 +9,6 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "89.110.53.87:5511",
     "basePath": "/",
     "paths": {
         "/api/v1/image/": {
@@ -340,6 +339,57 @@
             }
         },
         "/api/v1/user/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ],
+                "description": "Возвращает пользователя по ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Получить пользователя по ID.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "'Bearer _YOUR_TOKEN_'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "security": [
                     {

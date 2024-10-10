@@ -7,6 +7,7 @@ import (
 
 type (
 	UserService interface {
+		GetUserById(id int) (User, error)
 		GetUsers() ([]User, error)
 		CreateUser(a *User) (int, error)
 		UpdateUser(a *User) (int, error)
@@ -18,8 +19,13 @@ type (
 	}
 )
 
+func (s *userService) GetUserById(id int) (User, error) {
+	r, err := s.stores.User.GetById(id)
+	return r, err
+}
+
 func (s *userService) GetUsers() ([]User, error) {
-	r, err := s.stores.User.Get()
+	r, err := s.stores.User.GetAll()
 	return r, err
 }
 

@@ -24,7 +24,6 @@ definitions:
       message:
         type: string
     type: object
-host: 89.110.53.87:5511
 info:
   contact: {}
   description: Server for a user management API.
@@ -273,6 +272,39 @@ paths:
       security:
       - Bearer Authentication: []
       summary: Удалить пользователся по ID.
+      tags:
+      - User
+    get:
+      description: Возвращает пользователя по ID.
+      parameters:
+      - description: '''Bearer _YOUR_TOKEN_'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: User id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      security:
+      - Bearer Authentication: []
+      summary: Получить пользователя по ID.
       tags:
       - User
 schemes:
