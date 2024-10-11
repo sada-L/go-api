@@ -1,11 +1,12 @@
 package main
 
 import (
+	echojwt "github.com/labstack/echo-jwt/v4"
+	"go-api/configs"
 	database "go-api/db"
 	_ "go-api/docs"
 	"go-api/handlers"
 	"go-api/logger"
-	"go-api/middlewares"
 	"go-api/services"
 	"go-api/stores"
 	"go.uber.org/zap"
@@ -36,10 +37,7 @@ func main() {
 	ss := services.New(s)
 	h := handlers.New(ss)
 
-	jwtCheck, err := middlewares.JwtMiddleware()
-	if err != nil {
-		logger.Fatal("failed to set JWT middleware", zap.Error(err))
-	}
+	jwtCheck := echojwt.WithConfig(configs.NewConf())
 
 	handlers.SetDefault(e)
 	handlers.SetApi(e, h, jwtCheck)

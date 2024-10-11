@@ -4,10 +4,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	echoSwagger "github.com/swaggo/echo-swagger"
-	"go-api/configs"
 	"go-api/services"
 	"go-api/utils"
-	"net/http"
 	"strings"
 )
 
@@ -26,16 +24,14 @@ func New(s *services.Services) *Handlers {
 func SetDefault(e *echo.Echo) {
 	utils.SetHTMLTemplateRenderer(e)
 
-	e.GET("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "data", configs.GetConf())
-	})
-	e.GET("/healthcheck", HealthCheckHandler)
+	e.GET("/", HomeHandler)
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
+	e.POST("/login", LoginHandler)
 }
 
 func SetApi(e *echo.Echo, h *Handlers, m echo.MiddlewareFunc) {
 	g := e.Group("/api/v1")
-	//g.Use(m)
+	g.Use(m)
 
 	// User
 	g.GET("/user/:id", h.UserHandler.GetUserById)

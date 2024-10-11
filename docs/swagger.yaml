@@ -307,6 +307,38 @@ paths:
       summary: Получить пользователя по ID.
       tags:
       - User
+  /login:
+    post:
+      description: Авторизация по логину и паролю.
+      parameters:
+      - description: Username
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Your token
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      summary: Авторизация.
+      tags:
+      - Auth
 schemes:
 - http
 swagger: "2.0"
