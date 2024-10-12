@@ -1,12 +1,11 @@
 basePath: /
 definitions:
-  models.Image:
+  handlers.TokenResponse:
     properties:
-      filename:
-        example: Image.jpg
+      accessToken:
         type: string
-      id:
-        type: integer
+      refreshToken:
+        type: string
     type: object
   models.User:
     properties:
@@ -107,27 +106,25 @@ paths:
       tags:
       - Image
     get:
-      consumes:
-      - multipart/form-data
       description: Возвращает изображение по ID.
       parameters:
-      - description: Image ID
-        in: path
-        name: id
-        required: true
-        type: integer
       - description: '''Bearer _YOUR_TOKEN_'''
         in: header
         name: Authorization
         required: true
         type: string
+      - description: Image ID
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
-      - application/json
+      - application/octet-stream
       responses:
         "200":
-          description: OK
+          description: Image received
           schema:
-            $ref: '#/definitions/models.Image'
+            type: file
         "400":
           description: Bad Request
           schema:
@@ -325,9 +322,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: Your token
+          description: JWT tokens
           schema:
-            type: string
+            $ref: '#/definitions/handlers.TokenResponse'
         "401":
           description: Unauthorized
           schema:
@@ -337,6 +334,35 @@ paths:
           schema:
             $ref: '#/definitions/utils.Error'
       summary: Авторизация.
+      tags:
+      - Auth
+  /refresh:
+    post:
+      description: Обновляет токен досутпа с помощью токена обновления.
+      parameters:
+      - description: '''Bearer refresh_token'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JWT tokens
+          schema:
+            $ref: '#/definitions/handlers.TokenResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      security:
+      - Bearer Authentication: []
+      summary: Обновление доступа.
       tags:
       - Auth
 schemes:

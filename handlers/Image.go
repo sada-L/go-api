@@ -34,12 +34,11 @@ const imagePath = "./uploads/"
 // @Summary Получить изображение по ID.
 // @Description Возвращает изображение по ID.
 // @Tags Image
-// @Security Bearer Authentication
-// @Accept mpfd
-// @Produce json
-// @Param id path int true "Image ID"
+// @Produce application/octet-stream
 // @Param Authorization header string true "'Bearer _YOUR_TOKEN_'"
-// @Success 200 {object} models.Image
+// @Param id path int true "Image ID"
+// @Security Bearer Authentication
+// @Success 200 {file} file "Image received"
 // @Failure 400 {object} utils.Error
 // @Failure 404 {object} utils.Error
 // @Router /api/v1/image/{id} [get]
@@ -65,7 +64,7 @@ func (h *imageHandler) GetImage(c echo.Context) error {
 // @Description Загружает выбранное изображение.
 // @Tags Image
 // @Security Bearer Authentication
-// @Accept mpfd
+// @Accept multipart/form-data
 // @Produce json
 // @Param file formData file true "Image file"
 // @Param Authorization header string true "'Bearer _YOUR_TOKEN_'"
@@ -78,6 +77,14 @@ func (h *imageHandler) UploadImage(c echo.Context) error {
 	if err != nil {
 		logger.Error("failed to get image", zap.Error(err))
 		return c.JSON(http.StatusBadRequest, utils.Error{Message: err.Error()})
+	}
+
+	mimeType := file.Header.Get("Content-Type")
+	if mimeType != "image/png" && mimeType != "image/jpeg" {
+		logger.Error("wrong file type", zap.Error(err))
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"message": "Only image files (png, jpeg) are allowed",
+		})
 	}
 
 	filename := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)

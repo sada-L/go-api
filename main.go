@@ -37,7 +37,7 @@ func main() {
 	ss := services.New(s)
 	h := handlers.New(ss)
 
-	jwtCheck := echojwt.WithConfig(configs.NewConf())
+	jwtCheck := echojwt.WithConfig(configs.NewAccessConf())
 
 	handlers.SetDefault(e)
 	handlers.SetApi(e, h, jwtCheck)

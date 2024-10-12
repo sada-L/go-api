@@ -27,6 +27,7 @@ func SetDefault(e *echo.Echo) {
 	e.GET("/", HomeHandler)
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 	e.POST("/login", LoginHandler)
+	e.POST("/refresh", RefreshHandler)
 }
 
 func SetApi(e *echo.Echo, h *Handlers, m echo.MiddlewareFunc) {

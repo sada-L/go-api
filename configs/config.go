@@ -8,16 +8,18 @@ import (
 )
 
 type JwtClaims struct {
-	Name  string `json:"name"`
-	Admin bool   `json:"admin"`
+	Username  string `json:"username"`
+	TokenType string `json:"token_type"`
 	jwt.RegisteredClaims
 }
 
-func NewConf() echojwt.Config {
+var JwtSecret = []byte(os.Getenv("JWT_SECRET"))
+
+func NewAccessConf() echojwt.Config {
 	return echojwt.Config{
 		NewClaimsFunc: func(c echo.Context) jwt.Claims {
 			return new(JwtClaims)
 		},
-		SigningKey: []byte(os.Getenv("JWT_SECRET")),
+		SigningKey: JwtSecret,
 	}
 }

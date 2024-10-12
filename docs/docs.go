@@ -79,11 +79,8 @@ const docTemplate = `{
                     }
                 ],
                 "description": "Возвращает изображение по ID.",
-                "consumes": [
-                    "multipart/form-data"
-                ],
                 "produces": [
-                    "application/json"
+                    "application/octet-stream"
                 ],
                 "tags": [
                     "Image"
@@ -91,25 +88,25 @@ const docTemplate = `{
                 "summary": "Получить изображение по ID.",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Image ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
                         "type": "string",
                         "description": "'Bearer _YOUR_TOKEN_'",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Image ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Image received",
                         "schema": {
-                            "$ref": "#/definitions/models.Image"
+                            "type": "file"
                         }
                     },
                     "400": {
@@ -474,9 +471,55 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Your token",
+                        "description": "JWT tokens",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/handlers.TokenResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/refresh": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ],
+                "description": "Обновляет токен досутпа с помощью токена обновления.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Обновление доступа.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "'Bearer refresh_token'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JWT tokens",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.TokenResponse"
                         }
                     },
                     "401": {
@@ -496,15 +539,14 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.Image": {
+        "handlers.TokenResponse": {
             "type": "object",
             "properties": {
-                "filename": {
-                    "type": "string",
-                    "example": "Image.jpg"
+                "accessToken": {
+                    "type": "string"
                 },
-                "id": {
-                    "type": "integer"
+                "refreshToken": {
+                    "type": "string"
                 }
             }
         },
