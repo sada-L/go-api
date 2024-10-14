@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  server-db:
+    image: postgres:17
+    container_name: server-db
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5533:5432"
+    volumes:
+      - ./postgres:/data/server-db
+
+  go-server:
+    container_name: go-server
+    build:
+      context: .
+    ports:
+      - "5511:8080"
+    volumes:
+      - .:/go/app/base
+    depends_on:
+      - postgres
+
+

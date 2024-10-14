@@ -1,0 +1,283 @@
+basePath: /
+definitions:
+  domain.Error:
+    properties:
+      message:
+        type: string
+    type: object
+  domain.LoginResponse:
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+    type: object
+  domain.Profile:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+    type: object
+  domain.RefreshTokenResponse:
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+    type: object
+  domain.SignupResponse:
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Server for an image management API.
+  title: GO API
+  version: "1.0"
+paths:
+  /image/:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Загружает выбранное изображение.
+      parameters:
+      - description: Image file
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: '''Bearer _YOUR_TOKEN_'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Image ID
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Error'
+      security:
+      - Bearer Authentication: []
+      summary: Загрузить изображение.
+      tags:
+      - Image
+  /image/{id}:
+    delete:
+      consumes:
+      - multipart/form-data
+      description: Удаляет изображение по ID.
+      parameters:
+      - description: Image ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: '''Bearer _YOUR_TOKEN_'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Image deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Error'
+      security:
+      - Bearer Authentication: []
+      summary: Удалить изображение по ID.
+      tags:
+      - Image
+    get:
+      description: Возвращает изображение по ID.
+      parameters:
+      - description: '''Bearer _YOUR_TOKEN_'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Image ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - image/png
+      - image/jpeg
+      responses:
+        "200":
+          description: Image received
+          schema:
+            type: file
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/domain.Error'
+      security:
+      - Bearer Authentication: []
+      summary: Получить изображение по ID.
+      tags:
+      - Image
+  /login:
+    post:
+      description: Авторизация по логину и паролю.
+      parameters:
+      - description: Email
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JWT tokens
+          schema:
+            $ref: '#/definitions/domain.LoginResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Error'
+      summary: Авторизация.
+      tags:
+      - Auth
+  /profile:
+    get:
+      description: Просморт профиля пользователя по токену доступа.
+      parameters:
+      - description: '''Bearer _YOUR_TOKEN_'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Profile
+          schema:
+            $ref: '#/definitions/domain.Profile'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Error'
+      security:
+      - Bearer Authentication: []
+      summary: Просмотреть профиль.
+      tags:
+      - Auth
+  /refresh:
+    post:
+      description: Обновить токены с помощью токена обновления.
+      parameters:
+      - description: Refresh token
+        in: formData
+        name: refreshToken
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JWT Tokens
+          schema:
+            $ref: '#/definitions/domain.RefreshTokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Error'
+      summary: Обновление токенов.
+      tags:
+      - Auth
+  /signup:
+    post:
+      description: Регистарация по логину и паролю.
+      parameters:
+      - description: Username
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Email
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JWT tokens
+          schema:
+            $ref: '#/definitions/domain.SignupResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Error'
+      summary: Регистрация.
+      tags:
+      - Auth
+schemes:
+- http
+swagger: "2.0"
