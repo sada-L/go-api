@@ -4,7 +4,23 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68983c71-1541-466a-a700-99f44963bd30" name="Changes" comment="upd13:" />
+    <list default="true" id="68983c71-1541-466a-a700-99f44963bd30" name="Changes" comment="upd13:">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/controller/image.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/controller/image.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/route/image.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/route/image.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/1728879516_heart.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/1728880125_apple.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/1728889790_apple.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/1728889791_apple.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/1728889792_apple.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/1728889793_apple.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/1728889900_apple.jpg" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,7 +34,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../../../Program Files/Go" />
+  <component name="GOROOT" url="file://$USER_HOME$/sdk/go1.23.2" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -31,7 +47,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/sada-L/go-api.git&quot;,
-    &quot;accountId&quot;: &quot;5a5536dd-a8e4-4f54-abda-36f84e7a6e4c&quot;
+    &quot;accountId&quot;: &quot;81b4343f-7a90-4b0c-815b-1d64cc7378f3&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
@@ -53,7 +69,7 @@
   &quot;keyToString&quot;: {
     &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Go Build.App Engine.executor&quot;: &quot;Run&quot;,
+    &quot;Go Build.App Engine.executor&quot;: &quot;Debug&quot;,
     &quot;Go Build.go build example_1.go.executor&quot;: &quot;Run&quot;,
     &quot;Go Build.go build example_2.go.executor&quot;: &quot;Run&quot;,
     &quot;Go Build.go build example_3.go.executor&quot;: &quot;Debug&quot;,
@@ -68,7 +84,7 @@
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;go.vgo&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -86,7 +102,7 @@
       <module name="go-api" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="go-api" />
+      <package value="go-server" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -132,5 +148,16 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/api/controller/image.go</url>
+          <line>190</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

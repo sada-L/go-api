@@ -16,6 +16,8 @@ func NewImageRouter(env *bootstrap.Env, timeout time.Duration, db *gorm.DB, grou
 		ImageUsecase: usecase.NewImageUsecase(ir, timeout),
 	}
 	group.GET("/image/:id", ic.GetImage)
-	group.POST("/image", ic.UploadImage)
+	group.POST("/image/single", ic.UploadImage)
+	group.POST("/image/multi", ic.UploadMultipleImages)
+	group.POST("/image/multi/zip", ic.UploadZipFiles)
 	group.DELETE("/image/:id", ic.DeleteImageById)
 }

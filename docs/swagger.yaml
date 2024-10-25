@@ -39,42 +39,6 @@ info:
   title: GO API
   version: "1.0"
 paths:
-  /image/:
-    post:
-      consumes:
-      - multipart/form-data
-      description: Загружает выбранное изображение.
-      parameters:
-      - description: Image file
-        in: formData
-        name: file
-        required: true
-        type: file
-      - description: '''Bearer _YOUR_TOKEN_'''
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Image ID
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/domain.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/domain.Error'
-      security:
-      - Bearer Authentication: []
-      summary: Загрузить изображение.
-      tags:
-      - Image
   /image/{id}:
     delete:
       consumes:
@@ -147,6 +111,120 @@ paths:
       security:
       - Bearer Authentication: []
       summary: Получить изображение по ID.
+      tags:
+      - Image
+  /image/multi:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Загружает несколько выбранных изображений
+      parameters:
+      - collectionFormat: csv
+        description: Image files
+        in: formData
+        items:
+          type: file
+        name: files
+        required: true
+        type: array
+      - description: '''Bearer _YOUR_TOKEN_'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Images successfully uploaded
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Error'
+      security:
+      - Bearer Authentication: []
+      summary: Загрузка нескольких изображений
+      tags:
+      - Image
+  /image/multi/zip:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Загружает несколько выбранных изображений с последующем сжатием
+      parameters:
+      - collectionFormat: csv
+        description: Image files
+        in: formData
+        items:
+          type: file
+        name: files
+        required: true
+        type: array
+      - description: '''Bearer _YOUR_TOKEN_'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Images successfully uploaded
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Error'
+      security:
+      - Bearer Authentication: []
+      summary: Загрузка нескольких изображений с сжатием
+      tags:
+      - Image
+  /image/single:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Загружает выбранное изображение.
+      parameters:
+      - description: Image file
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: '''Bearer _YOUR_TOKEN_'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Image ID
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Error'
+      security:
+      - Bearer Authentication: []
+      summary: Загрузить изображение.
       tags:
       - Image
   /login:
