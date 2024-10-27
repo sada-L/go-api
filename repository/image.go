@@ -31,20 +31,20 @@ func (s *imageRepository) GetById(id int) (Image, error) {
 	return image, nil
 }
 
-func (s *imageRepository) Create(image *Image) (int, error) {
+func (s *imageRepository) Create(image *Image) (uint, error) {
 	if err := s.DB.Create(image).Error; err != nil {
 		return 0, err
 	}
-	id := image.Id
+	id := image.ID
 
 	return id, nil
 }
 
-func (s *imageRepository) Update(image *Image) (int, error) {
+func (s *imageRepository) Update(image *Image) (uint, error) {
 	if err := s.DB.Save(&image).Error; err != nil {
 		return 0, err
 	}
-	id := image.Id
+	id := image.ID
 
 	return id, nil
 }

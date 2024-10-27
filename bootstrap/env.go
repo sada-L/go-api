@@ -22,6 +22,9 @@ type Env struct {
 	RefreshTokenExpiryHour int    `json:"refresh_token_expiry_hour" mapstructure:"REFRESH_TOKEN_EXPIRY_HOUR"`
 	AccessTokenSecret      string `json:"access_token_secret"       mapstructure:"ACCESS_TOKEN_SECRET"`
 	RefreshTokenSecret     string `json:"refresh_token_secret"      mapstructure:"REFRESH_TOKEN_SECRET"`
+	ThresholdHours         int    `json:"threshold_hours"           mapstructure:"THRESHOLD_HOURS"`
+	StoragePath            string `json:"storage_path"              mapstructure:"STORAGE_PATH"`
+	IntervalHours          int    `json:"interval_hours"            mapstructure:"INTERVAL_HOURS"`
 }
 
 func NewEnv() *Env {

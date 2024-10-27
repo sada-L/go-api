@@ -30,13 +30,13 @@ func (u *imageUsecase) GetByID(c context.Context, id int) (domain.Image, error) 
 	return u.imageRepository.GetById(id)
 }
 
-func (u *imageUsecase) Create(c context.Context, image *domain.Image) (int, error) {
+func (u *imageUsecase) Create(c context.Context, image *domain.Image) (uint, error) {
 	_, cancel := context.WithTimeout(c, u.contextTimeout)
 	defer cancel()
 	return u.imageRepository.Create(image)
 }
 
-func (u *imageUsecase) Update(c context.Context, image *domain.Image) (int, error) {
+func (u *imageUsecase) Update(c context.Context, image *domain.Image) (uint, error) {
 	_, cancel := context.WithTimeout(c, u.contextTimeout)
 	defer cancel()
 	return u.imageRepository.Update(image)

@@ -4,22 +4,16 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68983c71-1541-466a-a700-99f44963bd30" name="Changes" comment="upd13:">
+    <list default="true" id="68983c71-1541-466a-a700-99f44963bd30" name="Changes" comment="upd14: add multi/zip image upload">
+      <change afterPath="$PROJECT_DIR$/internal/cleanup/cleanup.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controller/image.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/controller/image.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/route/image.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/route/image.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/1728879516_heart.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/1728880125_apple.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/1728889790_apple.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/1728889791_apple.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/1728889792_apple.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/1728889793_apple.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/1728889900_apple.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootstrap/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/bootstrap/database.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootstrap/env.go" beforeDir="false" afterPath="$PROJECT_DIR$/bootstrap/env.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/image.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/image.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repository/image.go" beforeDir="false" afterPath="$PROJECT_DIR$/repository/image.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usecase/image.go" beforeDir="false" afterPath="$PROJECT_DIR$/usecase/image.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +30,24 @@
   </component>
   <component name="GOROOT" url="file://$USER_HOME$/sdk/go1.23.2" />
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -65,28 +77,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Go Build.App Engine.executor&quot;: &quot;Debug&quot;,
-    &quot;Go Build.go build example_1.go.executor&quot;: &quot;Run&quot;,
-    &quot;Go Build.go build example_2.go.executor&quot;: &quot;Run&quot;,
-    &quot;Go Build.go build example_3.go.executor&quot;: &quot;Debug&quot;,
-    &quot;Go Build.go build example_4.go.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/sada&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Go Build.App Engine.executor": "Debug",
+    "Go Build.go build example_1.go.executor": "Run",
+    "Go Build.go build example_2.go.executor": "Run",
+    "Go Build.go build example_3.go.executor": "Debug",
+    "Go Build.go build example_4.go.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "git-widget-placeholder": "clean-util",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "C:/Users/sada",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\sada\go\src\go-api\assets" />
@@ -94,6 +106,7 @@
       <recent name="C:\Users\sada\go\src\go-api" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sada\GolandProjects\go-api\internal\cleanup" />
       <recent name="C:\Users\sada\go\src\go-api\handlers" />
     </key>
   </component>
@@ -120,12 +133,27 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="clean-util" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -144,20 +172,10 @@
     <MESSAGE value="upd11: add new user handler/ upd env" />
     <MESSAGE value="upd12: upd auth(now work)" />
     <MESSAGE value="upd13:" />
-    <option name="LAST_COMMIT_MESSAGE" value="upd13:" />
+    <MESSAGE value="upd14: add multi/zip image upload" />
+    <option name="LAST_COMMIT_MESSAGE" value="upd14: add multi/zip image upload" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/api/controller/image.go</url>
-          <line>190</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
