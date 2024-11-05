@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/image/multi": {
+        "/api/image/multi": {
             "post": {
                 "security": [
                     {
@@ -55,9 +55,12 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Images successfully uploaded",
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
                         }
                     },
                     "400": {
@@ -75,7 +78,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/image/multi/zip": {
+        "/api/image/multi/zip": {
             "post": {
                 "security": [
                     {
@@ -115,9 +118,12 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Images successfully uploaded",
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
                         }
                     },
                     "400": {
@@ -135,7 +141,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/image/single": {
+        "/api/image/single": {
             "post": {
                 "security": [
                     {
@@ -191,7 +197,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/image/{id}": {
+        "/api/image/{id}": {
             "get": {
                 "security": [
                     {
@@ -305,7 +311,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/login": {
+        "/api/login": {
             "post": {
                 "description": "Авторизация по логину и паролю.",
                 "produces": [
@@ -353,7 +359,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/profile": {
+        "/api/profile": {
             "get": {
                 "security": [
                     {
@@ -399,7 +405,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/refresh": {
+        "/api/refresh": {
             "post": {
                 "description": "Обновить токены с помощью токена обновления.",
                 "produces": [
@@ -446,7 +452,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/signup": {
+        "/api/signup": {
             "post": {
                 "description": "Регистарация по логину и паролю.",
                 "produces": [

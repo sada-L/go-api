@@ -11,7 +11,7 @@ import (
 )
 
 func cleanOldFiles(app *bootstrap.Application) error {
-	thresholdTime := time.Now().Add(-time.Duration(app.Env.ThresholdHours) * time.Minute)
+	thresholdTime := time.Now().Add(-time.Duration(app.Env.ThresholdHours) * time.Hour)
 	var oldFiles []domain.Image
 
 	if err := app.Database.Where("created_at < ?", thresholdTime).Find(&oldFiles).Error; err != nil {
@@ -35,7 +35,8 @@ func cleanOldFiles(app *bootstrap.Application) error {
 	return nil
 }
 
-func CleanOldFiles(app *bootstrap.Application, interval time.Duration) {
+func CleanOldFiles(app *bootstrap.Application) {
+	interval := time.Duration(app.Env.IntervalHours) * time.Hour
 	ticker := time.NewTicker(interval)
 	defer ticker.Stop()
 

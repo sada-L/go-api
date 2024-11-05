@@ -39,7 +39,7 @@ info:
   title: GO API
   version: "1.0"
 paths:
-  /image/{id}:
+  /api/image/{id}:
     delete:
       consumes:
       - multipart/form-data
@@ -113,7 +113,7 @@ paths:
       summary: Получить изображение по ID.
       tags:
       - Image
-  /image/multi:
+  /api/image/multi:
     post:
       consumes:
       - multipart/form-data
@@ -136,9 +136,11 @@ paths:
       - application/json
       responses:
         "200":
-          description: Images successfully uploaded
+          description: OK
           schema:
-            type: string
+            items:
+              type: integer
+            type: array
         "400":
           description: Bad Request
           schema:
@@ -152,7 +154,7 @@ paths:
       summary: Загрузка нескольких изображений
       tags:
       - Image
-  /image/multi/zip:
+  /api/image/multi/zip:
     post:
       consumes:
       - multipart/form-data
@@ -175,9 +177,11 @@ paths:
       - application/json
       responses:
         "200":
-          description: Images successfully uploaded
+          description: OK
           schema:
-            type: string
+            items:
+              type: integer
+            type: array
         "400":
           description: Bad Request
           schema:
@@ -191,7 +195,7 @@ paths:
       summary: Загрузка нескольких изображений с сжатием
       tags:
       - Image
-  /image/single:
+  /api/image/single:
     post:
       consumes:
       - multipart/form-data
@@ -227,7 +231,7 @@ paths:
       summary: Загрузить изображение.
       tags:
       - Image
-  /login:
+  /api/login:
     post:
       description: Авторизация по логину и паролю.
       parameters:
@@ -259,7 +263,7 @@ paths:
       summary: Авторизация.
       tags:
       - Auth
-  /profile:
+  /api/profile:
     get:
       description: Просморт профиля пользователя по токену доступа.
       parameters:
@@ -288,7 +292,7 @@ paths:
       summary: Просмотреть профиль.
       tags:
       - Auth
-  /refresh:
+  /api/refresh:
     post:
       description: Обновить токены с помощью токена обновления.
       parameters:
@@ -319,7 +323,7 @@ paths:
       summary: Обновление токенов.
       tags:
       - Auth
-  /signup:
+  /api/signup:
     post:
       description: Регистарация по логину и паролю.
       parameters:

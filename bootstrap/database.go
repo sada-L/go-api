@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"fmt"
+	"go-server/domain"
 	"go-server/internal/logger"
 	"go.uber.org/zap"
 	"gorm.io/driver/postgres"
@@ -13,6 +14,10 @@ func NewDB(env *Env) *gorm.DB {
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		logger.Fatal("Failed to connect to database!", zap.Error(err))
+	}
+
+	if err = db.AutoMigrate(&domain.User{}, &domain.Image{}); err != nil {
+		logger.Fatal("Failed to migrate to database!", zap.Error(err))
 	}
 
 	return db

@@ -25,7 +25,7 @@ type LoginController struct {
 // @Success 200 {object} domain.LoginResponse "JWT tokens"
 // @Failure 401 {object} domain.Error
 // @Failure 500 {object} domain.Error
-// @Router /login [post]
+// @Router /api/login [post]
 func (lc *LoginController) Login(c *gin.Context) {
 	var request LoginRequest
 

@@ -24,7 +24,7 @@ type RefreshTokenController struct {
 // @Failure 400 {object} domain.Error
 // @Failure 401 {object} domain.Error
 // @Failure 500 {object} domain.Error
-// @Router /refresh [post]
+// @Router /api/refresh [post]
 func (rtc *RefreshTokenController) RefreshToken(c *gin.Context) {
 	var request RefreshTokenRequest
 

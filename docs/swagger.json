@@ -11,7 +11,7 @@
     },
     "basePath": "/",
     "paths": {
-        "/image/multi": {
+        "/api/image/multi": {
             "post": {
                 "security": [
                     {
@@ -51,9 +51,12 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Images successfully uploaded",
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
                         }
                     },
                     "400": {
@@ -71,7 +74,7 @@
                 }
             }
         },
-        "/image/multi/zip": {
+        "/api/image/multi/zip": {
             "post": {
                 "security": [
                     {
@@ -111,9 +114,12 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Images successfully uploaded",
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
                         }
                     },
                     "400": {
@@ -131,7 +137,7 @@
                 }
             }
         },
-        "/image/single": {
+        "/api/image/single": {
             "post": {
                 "security": [
                     {
@@ -187,7 +193,7 @@
                 }
             }
         },
-        "/image/{id}": {
+        "/api/image/{id}": {
             "get": {
                 "security": [
                     {
@@ -301,7 +307,7 @@
                 }
             }
         },
-        "/login": {
+        "/api/login": {
             "post": {
                 "description": "Авторизация по логину и паролю.",
                 "produces": [
@@ -349,7 +355,7 @@
                 }
             }
         },
-        "/profile": {
+        "/api/profile": {
             "get": {
                 "security": [
                     {
@@ -395,7 +401,7 @@
                 }
             }
         },
-        "/refresh": {
+        "/api/refresh": {
             "post": {
                 "description": "Обновить токены с помощью токена обновления.",
                 "produces": [
@@ -442,7 +448,7 @@
                 }
             }
         },
-        "/signup": {
+        "/api/signup": {
             "post": {
                 "description": "Регистарация по логину и паролю.",
                 "produces": [

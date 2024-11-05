@@ -26,7 +26,7 @@ type SignupController struct {
 // @Success 200 {object} domain.SignupResponse "JWT tokens"
 // @Failure 401 {object} domain.Error
 // @Failure 500 {object} domain.Error
-// @Router /signup [post]
+// @Router /api/signup [post]
 func (ctl *SignupController) Signup(c *gin.Context) {
 	var request SignupRequest
 

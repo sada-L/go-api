@@ -4,7 +4,6 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
-	"go-server/api/middleware"
 	"go-server/bootstrap"
 	"gorm.io/gorm"
 	"time"
@@ -35,17 +34,19 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db *gorm.DB, gin *gin.Engi
 	gin.LoadHTMLGlob("./template/*")
 
 	// Public APIs
-	publicRouter := gin.Group("")
-	NewHomeRouter(env, timeout, db, publicRouter)
+	defaultRouter := gin.Group("/")
+	NewHomeRouter(env, timeout, db, defaultRouter)
+	NewSwaggerRouter(env, timeout, db, defaultRouter)
+
+	publicRouter := gin.Group("/api")
 	NewSignupRouter(env, timeout, db, publicRouter)
 	NewLoginRouter(env, timeout, db, publicRouter)
 	NewRefreshTokenRouter(env, timeout, db, publicRouter)
-	NewSwaggerRouter(env, timeout, db, publicRouter)
 
 	// Private APIs
-	protectedRouter := gin.Group("")
+	protectedRouter := gin.Group("/api")
 	// Middleware to verify AccessToken
-	protectedRouter.Use(middleware.JwtAuthMiddleware(env.AccessTokenSecret))
+	//protectedRouter.Use(middleware.JwtAuthMiddleware(env.AccessTokenSecret))
 
 	NewProfileRouter(env, timeout, db, protectedRouter)
 	NewImageRouter(env, timeout, db, protectedRouter)

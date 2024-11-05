@@ -34,7 +34,7 @@ const imagePath = "./uploads/"
 // @Success 200 {file} file "Image received"
 // @Failure 400 {object} domain.Error
 // @Failure 404 {object} domain.Error
-// @Router /image/{id} [get]
+// @Router /api/image/{id} [get]
 func (ic *ImageController) GetImage(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -65,7 +65,7 @@ func (ic *ImageController) GetImage(c *gin.Context) {
 // @Success 200 {string} string "Image ID"
 // @Failure 400 {object} domain.Error
 // @Failure 500 {object} domain.Error
-// @Router /image/single [post]
+// @Router /api/image/single [post]
 func (ic *ImageController) UploadImage(c *gin.Context) {
 	file, err := c.FormFile("file")
 	if err != nil {
@@ -113,10 +113,10 @@ func (ic *ImageController) UploadImage(c *gin.Context) {
 // @Security Bearer Authentication
 // @Param files formData []file true "Image files"
 // @Param Authorization header string true "'Bearer _YOUR_TOKEN_'"
-// @Success 200 {object} string "Images successfully uploaded"
+// @Success 200 {array}  uint
 // @Failure 400 {object} domain.Error
 // @Failure 500 {object} domain.Error
-// @Router /image/multi [post]
+// @Router /api/image/multi [post]
 func (ic *ImageController) UploadMultipleImages(c *gin.Context) {
 	form, err := c.MultipartForm()
 	if err != nil {
@@ -136,7 +136,7 @@ func (ic *ImageController) UploadMultipleImages(c *gin.Context) {
 	wg.Add(len(files))
 
 	var mutex sync.Mutex
-	var imageList []domain.Image
+	var ids []uint
 
 	for _, file := range files {
 		go func() {
@@ -152,26 +152,26 @@ func (ic *ImageController) UploadMultipleImages(c *gin.Context) {
 			}
 
 			image := domain.Image{
-				Filename: file.Filename,
+				Filename: filename,
 			}
 
 			mutex.Lock()
-			imageList = append(imageList, image)
+
+			id, err := ic.ImageUsecase.Create(c, &image)
+			if err != nil {
+				logger.Error("failed to delete image", zap.Error(err))
+				c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
+				return
+			}
+			ids = append(ids, id)
+
 			mutex.Unlock()
 		}()
 	}
 
 	wg.Wait()
 
-	for _, image := range imageList {
-		if _, err = ic.ImageUsecase.Create(c, &image); err != nil {
-			logger.Error("failed to delete image", zap.Error(err))
-			c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
-			return
-		}
-	}
-
-	c.JSON(http.StatusOK, gin.H{"message": "Images successfully uploaded"})
+	c.JSON(http.StatusOK, ids)
 }
 
 // UploadZipFiles
@@ -183,10 +183,10 @@ func (ic *ImageController) UploadMultipleImages(c *gin.Context) {
 // @Security Bearer Authentication
 // @Param files formData []file true "Image files"
 // @Param Authorization header string true "'Bearer _YOUR_TOKEN_'"
-// @Success 200 {object} string "Images successfully uploaded"
+// @Success 200 {array} uint
 // @Failure 400 {object} domain.Error
 // @Failure 500 {object} domain.Error
-// @Router /image/multi/zip [post]
+// @Router /api/image/multi/zip [post]
 func (ic *ImageController) UploadZipFiles(c *gin.Context) {
 	form, err := c.MultipartForm()
 	if err != nil {
@@ -206,7 +206,7 @@ func (ic *ImageController) UploadZipFiles(c *gin.Context) {
 	wg.Add(len(files))
 
 	var mutex sync.Mutex
-	var imageList []domain.Image
+	var ids []uint
 
 	for _, file := range files {
 		go func() {
@@ -248,26 +248,26 @@ func (ic *ImageController) UploadZipFiles(c *gin.Context) {
 			}
 
 			image := domain.Image{
-				Filename: file.Filename,
+				Filename: filename,
 			}
 
 			mutex.Lock()
-			imageList = append(imageList, image)
+
+			id, err := ic.ImageUsecase.Create(c, &image)
+			if err != nil {
+				logger.Error("failed to delete image", zap.Error(err))
+				c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
+				return
+			}
+			ids = append(ids, id)
+
 			mutex.Unlock()
 		}()
 	}
 
 	wg.Wait()
 
-	for _, image := range imageList {
-		if _, err = ic.ImageUsecase.Create(c, &image); err != nil {
-			logger.Error("failed to delete image", zap.Error(err))
-			c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
-			return
-		}
-	}
-
-	c.JSON(http.StatusOK, gin.H{"message": "Files successfully compressed"})
+	c.JSON(http.StatusOK, ids)
 }
 
 // DeleteImageById
@@ -283,7 +283,7 @@ func (ic *ImageController) UploadZipFiles(c *gin.Context) {
 // @Failure 400 {object} domain.Error
 // @Failure 404 {object} domain.Error
 // @Failure 500 {object} domain.Error
-// @Router /image/{id} [delete]
+// @Router /api/image/{id} [delete]
 func (ic *ImageController) DeleteImageById(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

@@ -22,7 +22,7 @@ type ProfileController struct {
 // @Success 200 {object} domain.Profile "Profile"
 // @Failure 401 {object} domain.Error
 // @Failure 500 {object} domain.Error
-// @Router /profile [get]
+// @Router /api/profile [get]
 func (pc *ProfileController) Fetch(c *gin.Context) {
 	userID := c.GetString("x-user-id")
 

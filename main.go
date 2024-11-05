@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"go-server/api/route"
 	"go-server/bootstrap"
-	"go-server/internal/cleanup"
 	"go-server/internal/logger"
 	"go.uber.org/zap"
 	"log"
@@ -31,9 +30,7 @@ func main() {
 
 	route.Setup(app.Env, timeout, app.Database, e)
 
-	cleanupInterval := time.Duration(app.Env.IntervalHours) * time.Minute
-
-	go cleanup.CleanOldFiles(&app, cleanupInterval)
+	//go cleanup.CleanOldFiles(&app, cleanupInterval)
 
 	logger.Fatal("failed to start server", zap.Error(e.Run(app.Env.ServerPort)))
 }
