@@ -4,6 +4,7 @@ import (
 	"archive/zip"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"go-server/domain"
 	"go-server/internal/logger"
 	"go.uber.org/zap"
@@ -13,7 +14,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
-	"time"
+	"sync"
 )
 
 type ImageController struct {
@@ -81,7 +82,7 @@ func (ic *ImageController) UploadImage(c *gin.Context) {
 		return
 	}
 
-	filename := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)
+	filename := fmt.Sprintf("%s_%s", uuid.New().String(), file.Filename)
 	filePath := filepath.Join(imagePath, filename)
 
 	if err := c.SaveUploadedFile(file, filePath); err != nil {
@@ -133,15 +134,18 @@ func (ic *ImageController) UploadMultipleImages(c *gin.Context) {
 
 	errors := make(chan error)
 	var images []domain.Image
+	var wg sync.WaitGroup
 
 	for _, file := range files {
-		filename := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)
+		filename := fmt.Sprintf("%s_%s", uuid.New().String(), file.Filename)
 		image := domain.Image{
 			Filename: filename,
 		}
 		images = append(images, image)
 
+		wg.Add(1)
 		go func() {
+			defer wg.Done()
 			filePath := filepath.Join(imagePath, filename)
 
 			if err := c.SaveUploadedFile(file, filePath); err != nil {
@@ -157,6 +161,8 @@ func (ic *ImageController) UploadMultipleImages(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
 		return
 	}
+
+	wg.Wait()
 
 	close(errors)
 	for err := range errors {
@@ -203,15 +209,17 @@ func (ic *ImageController) UploadZipFiles(c *gin.Context) {
 
 	errors := make(chan error)
 	var images []domain.Image
+	var wg sync.WaitGroup
 
 	for _, file := range files {
-		filename := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)
+		filename := fmt.Sprintf("%s_%s", uuid.New().String(), file.Filename)
 		image := domain.Image{
 			Filename: filename,
 		}
 		images = append(images, image)
 
-		go uploadFile(filename, file, errors)
+		wg.Add(1)
+		go uploadFile(filename, file, errors, &wg)
 	}
 
 	if err := ic.ImageUsecase.CreateMany(c, &images); err != nil {
@@ -219,6 +227,8 @@ func (ic *ImageController) UploadZipFiles(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
 		return
 	}
+
+	wg.Wait()
 
 	close(errors)
 	for err := range errors {
@@ -235,7 +245,9 @@ func (ic *ImageController) UploadZipFiles(c *gin.Context) {
 	c.JSON(http.StatusOK, ids)
 }
 
-func uploadFile(filename string, file *multipart.FileHeader, errors chan<- error) {
+func uploadFile(filename string, file *multipart.FileHeader, errors chan<- error, wg *sync.WaitGroup) {
+	defer wg.Done()
+
 	srcFile, err := file.Open()
 	if err != nil {
 		logger.Error("failed to open file", zap.Error(err))
