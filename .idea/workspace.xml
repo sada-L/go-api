@@ -4,20 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68983c71-1541-466a-a700-99f44963bd30" name="Changes" comment="add cleanup util">
+    <list default="true" id="68983c71-1541-466a-a700-99f44963bd30" name="Changes" comment="upd16: update cleanup util">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/controller/image.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/controller/image.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controller/login.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/controller/login.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controller/profile.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/controller/profile.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controller/refresh.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/controller/refresh.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controller/singup.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/controller/singup.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/route/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/route/route.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bootstrap/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/bootstrap/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/cleanup/cleanup.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/cleanup/cleanup.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/image.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/image.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repository/image.go" beforeDir="false" afterPath="$PROJECT_DIR$/repository/image.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usecase/image.go" beforeDir="false" afterPath="$PROJECT_DIR$/usecase/image.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +93,7 @@
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.editor"
+    "settings.editor.selected.configurable": "editor.stickyLines"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -194,7 +186,8 @@
     <MESSAGE value="upd13:" />
     <MESSAGE value="upd14: add multi/zip image upload" />
     <MESSAGE value="add cleanup util" />
-    <option name="LAST_COMMIT_MESSAGE" value="add cleanup util" />
+    <MESSAGE value="upd16: update cleanup util" />
+    <option name="LAST_COMMIT_MESSAGE" value="upd16: update cleanup util" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

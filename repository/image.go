@@ -31,13 +31,19 @@ func (s *imageRepository) GetById(id int) (Image, error) {
 	return image, nil
 }
 
-func (s *imageRepository) Create(image *Image) (uint, error) {
+func (s *imageRepository) Create(image *Image) error {
 	if err := s.DB.Create(image).Error; err != nil {
-		return 0, err
+		return err
 	}
-	id := image.ID
 
-	return id, nil
+	return nil
+}
+
+func (s *imageRepository) CreateMany(image *[]Image) error {
+	if err := s.DB.Create(image).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *imageRepository) Update(image *Image) (uint, error) {

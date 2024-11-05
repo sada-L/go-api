@@ -8,11 +8,11 @@ import (
 	"go-server/internal/logger"
 	"go.uber.org/zap"
 	"io"
+	"mime/multipart"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
-	"sync"
 	"time"
 )
 
@@ -94,14 +94,13 @@ func (ic *ImageController) UploadImage(c *gin.Context) {
 		Filename: filename,
 	}
 
-	r, err := ic.ImageUsecase.Create(c, &image)
-	if err != nil {
+	if err := ic.ImageUsecase.Create(c, &image); err != nil {
 		logger.Error("failed to create image", zap.Error(err))
 		c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, r)
+	c.JSON(http.StatusOK, image.ID)
 }
 
 // UploadMultipleImages
@@ -132,17 +131,17 @@ func (ic *ImageController) UploadMultipleImages(c *gin.Context) {
 		return
 	}
 
-	var wg sync.WaitGroup
-	wg.Add(len(files))
-
-	var mutex sync.Mutex
-	var ids []uint
+	errors := make(chan error)
+	var images []domain.Image
 
 	for _, file := range files {
-		go func() {
-			defer wg.Done()
+		filename := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)
+		image := domain.Image{
+			Filename: filename,
+		}
+		images = append(images, image)
 
-			filename := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)
+		go func() {
 			filePath := filepath.Join(imagePath, filename)
 
 			if err := c.SaveUploadedFile(file, filePath); err != nil {
@@ -150,26 +149,26 @@ func (ic *ImageController) UploadMultipleImages(c *gin.Context) {
 				c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
 				return
 			}
-
-			image := domain.Image{
-				Filename: filename,
-			}
-
-			mutex.Lock()
-
-			id, err := ic.ImageUsecase.Create(c, &image)
-			if err != nil {
-				logger.Error("failed to delete image", zap.Error(err))
-				c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
-				return
-			}
-			ids = append(ids, id)
-
-			mutex.Unlock()
 		}()
 	}
 
-	wg.Wait()
+	if err := ic.ImageUsecase.CreateMany(c, &images); err != nil {
+		logger.Error("failed to upload image", zap.Error(err))
+		c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
+		return
+	}
+
+	close(errors)
+	for err := range errors {
+		logger.Error("failed to upload files", zap.Error(err))
+		c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
+		return
+	}
+
+	var ids []uint
+	for _, image := range images {
+		ids = append(ids, image.ID)
+	}
 
 	c.JSON(http.StatusOK, ids)
 }
@@ -202,72 +201,74 @@ func (ic *ImageController) UploadZipFiles(c *gin.Context) {
 		return
 	}
 
-	var wg sync.WaitGroup
-	wg.Add(len(files))
-
-	var mutex sync.Mutex
-	var ids []uint
+	errors := make(chan error)
+	var images []domain.Image
 
 	for _, file := range files {
-		go func() {
-			defer wg.Done()
+		filename := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)
+		image := domain.Image{
+			Filename: filename,
+		}
+		images = append(images, image)
 
-			srcFile, err := file.Open()
-			if err != nil {
-				logger.Error("failed to open file", zap.Error(err))
-				c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
-				return
-			}
-			defer srcFile.Close()
-
-			filename := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)
-			zipFilePath := filepath.Join(imagePath, fmt.Sprintf("%s.zip", filename))
-			outFile, err := os.Create(zipFilePath)
-			if err != nil {
-				logger.Error("failed to create zip", zap.Error(err))
-				c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
-				return
-			}
-			defer outFile.Close()
-
-			zipWriter := zip.NewWriter(outFile)
-			defer zipWriter.Close()
-
-			zipFileWriter, err := zipWriter.Create(file.Filename)
-			if err != nil {
-				logger.Error("failed to create zip", zap.Error(err))
-				c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
-				return
-			}
-
-			_, err = io.Copy(zipFileWriter, srcFile)
-			if err != nil {
-				logger.Error("failed to create zip", zap.Error(err))
-				c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
-				return
-			}
-
-			image := domain.Image{
-				Filename: filename,
-			}
-
-			mutex.Lock()
-
-			id, err := ic.ImageUsecase.Create(c, &image)
-			if err != nil {
-				logger.Error("failed to delete image", zap.Error(err))
-				c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
-				return
-			}
-			ids = append(ids, id)
-
-			mutex.Unlock()
-		}()
+		go uploadFile(filename, file, errors)
 	}
 
-	wg.Wait()
+	if err := ic.ImageUsecase.CreateMany(c, &images); err != nil {
+		logger.Error("failed to upload image", zap.Error(err))
+		c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
+		return
+	}
+
+	close(errors)
+	for err := range errors {
+		logger.Error("failed to upload files", zap.Error(err))
+		c.JSON(http.StatusInternalServerError, domain.Error{Message: err.Error()})
+		return
+	}
+
+	var ids []uint
+	for _, image := range images {
+		ids = append(ids, image.ID)
+	}
 
 	c.JSON(http.StatusOK, ids)
+}
+
+func uploadFile(filename string, file *multipart.FileHeader, errors chan<- error) {
+	srcFile, err := file.Open()
+	if err != nil {
+		logger.Error("failed to open file", zap.Error(err))
+		errors <- err
+		return
+	}
+	defer srcFile.Close()
+
+	zipFilePath := filepath.Join(imagePath, fmt.Sprintf("%s.zip", filename))
+	outFile, err := os.Create(zipFilePath)
+	if err != nil {
+		logger.Error("failed to create zip", zap.Error(err))
+		errors <- err
+		return
+	}
+	defer outFile.Close()
+
+	zipWriter := zip.NewWriter(outFile)
+	defer zipWriter.Close()
+
+	zipFileWriter, err := zipWriter.Create(file.Filename)
+	if err != nil {
+		logger.Error("failed to create zip", zap.Error(err))
+		errors <- err
+		return
+	}
+
+	_, err = io.Copy(zipFileWriter, srcFile)
+	if err != nil {
+		logger.Error("failed to create zip", zap.Error(err))
+		errors <- err
+		return
+	}
 }
 
 // DeleteImageById
